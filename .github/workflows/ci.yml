@@ -1,0 +1,35 @@
+name: Code Lint
+
+on:
+  pull_request: {}
+jobs:
+  Standard:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Set up Ruby 2.6.3
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6.3
+        bundler-cache: true
+    - name: Get changed files
+      id: changed_files
+      run: |
+        git fetch origin $GITHUB_BASE_REF:$GITHUB_BASE_REF
+        echo ::set-output name=list::$(
+          git --no-pager diff "$GITHUB_BASE_REF...HEAD" \
+              --name-only --diff-filter=ACMR
+        )
+    - name: Run standard.rb
+      id: standard
+      run: |
+        ruby -W0 -S bundle exec standardrb \
+            --force-exclusion \
+            --require=./action_formatter \
+            --format=ActionFormatter \
+            --format=json \
+            --color \
+            --out=rubocop.json \
+            ${{ steps.changed_files.outputs.list }}
