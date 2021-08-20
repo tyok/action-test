@@ -9,8 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: echo 'release'
     - if: contains(github.event.release.tag_name, 'beta')
       run: echo 'waduh, release beta'
     - if: contains(github.event.release.tag_name, 'beta')
-      run: echo 'release notes: ${{ github.event.release.description }}'
+      run: echo 'release ${{ github.event.release.body }}'
