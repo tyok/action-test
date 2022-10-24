@@ -14,13 +14,14 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - attach_workspace:
-          at: /tmp/workspace
-      - run: less /tmp/workspace/world || true
+      - run: less world || true
       - run: echo hello >| world
-      - persist_to_workspace:
-          root: .
-          paths: [world]
+      - restore_cache:
+          keys: [world-v1-{{.Branch}}-{{.Revision}}]
+      - save_cache:
+          key: world-v1-{{.Branch}}-{{.Revision}}
+          paths: [./world]
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
