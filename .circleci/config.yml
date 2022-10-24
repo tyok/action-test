@@ -17,7 +17,7 @@ jobs:
       - run: less world || true
       - run: echo hello >| world
       - restore_cache:
-          keys: [world-v1-{{.Branch}}-{{.Revision}}]
+          keys: ["world-v1-{{.Branch}}-{{.Revision}}"]
       - save_cache:
           key: world-v1-{{.Branch}}-{{.Revision}}
           paths: [./world]
