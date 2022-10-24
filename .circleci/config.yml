@@ -15,8 +15,8 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
-      - run: less world || true
+          at: /tmp/workspace
+      - run: less /tmp/workspace/world || true
       - run: echo hello >| world
       - persist_to_workspace:
           root: .
