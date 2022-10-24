@@ -14,10 +14,10 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run: less world || true
-      - run: echo hello >| world
       - restore_cache:
           keys: ["world-v1-{{.Branch}}-{{.Revision}}"]
+      - run: less world || true
+      - run: echo hello >| world
       - save_cache:
           key: world-v1-{{.Branch}}-{{.Revision}}
           paths: [./world]
